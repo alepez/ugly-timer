@@ -18,6 +18,25 @@
     return formatSeconds(timeToTarget / 1000);
   };
 
+  const play = (state) => updateState(state, {
+    playing: true,
+    targetTime: new Date(now().getTime() + state.timeDiff),
+  });
+
+  const pause = (state) => updateState(state, {
+    playing: false,
+    timeDiff: state.targetTime - now().getTime(),
+  });
+
+  const incrementTime = (state, milliseconds) => {
+    const timeDiff = state.timeDiff + milliseconds;
+    return updateState(state, {
+      timeDiff,
+      targetTime: new Date(now().getTime() + timeDiff),
+    });
+  };
+
+
   const setup = () => {
     const timeEl = document.getElementById('timer');
     const playEl = document.getElementById('play');
@@ -33,31 +52,21 @@
       targetTime: new Date(now().getTime() + defaultTimeDiff),
     };
 
-    play.onclick = (event) => {
-      state = updateState(state, {
-        playing: true,
-        targetTime: new Date(now().getTime() + state.timeDiff),
-      });
+    playEl.onclick = () => {
+      state = play(state);
       return false;
     };
 
-    pause.onclick = (event) => {
-      state = updateState(state, {
-        playing: false,
-        timeDiff: state.targetTime - now().getTime(),
-      });
+    pauseEl.onclick = () => {
+      state = pause(state);
       return false;
     };
 
-    incrButtons.forEach((element, index, array) => {
+    incrButtons.forEach((element) => {
       const minutes = Number(element.hash.slice(1));
       const milliseconds = minutes * 60 * 1000;
       element.onclick = (event) => {
-        const timeDiff = state.timeDiff + milliseconds;
-        state = updateState(state, {
-          timeDiff,
-          targetTime: new Date(now().getTime() + timeDiff),
-        });
+        state = incrementTime(state, milliseconds);
         timeEl.innerHTML = renderTimeEl(state);
       };
     });
