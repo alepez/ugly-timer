@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Timer</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Timer</title>
+</head>
+<body>
+  <div>
     <span id="timer"></span>
-    <a id="pause" href="#pause">Pause</a>
-    <a id="play" href="#play">Play</a>
-  </body>
-  <script src="timer.js" charset="utf-8"></script>
+  </div>
+
+  <div>
+    <a id="pause" href="#pause">Pause</a> <a id="play" href="#play">Play</a>
+  </div>
+
+  <ul>
+    <li> <a class="incr-button" href="#-60">-60</a> </li>
+    <li> <a class="incr-button" href="#+60">+60</a> </li>
+    <li> <a class="incr-button" href="#-10">-10</a> </li>
+    <li> <a class="incr-button" href="#+10">+10</a> </li>
+    <li> <a class="incr-button" href="#-1">-1</a> </li>
+    <li> <a class="incr-button" href="#+1">+1</a> </li>
+  </ul>
+  <script src="timer.js" charset="utf-8"></script> 
   <script src="http://127.0.0.1:9001/js/socket.js" charset="utf-8"></script>
+</body>
 </html>

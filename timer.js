@@ -14,7 +14,6 @@
   const updateState = (state, update) => Object.assign({}, state, update);
 
   const renderTimeEl = (state) => {
-    console.log(state);
     const timeToTarget = state.playing ? (state.targetTime - now().getTime()) : state.timeDiff;
     return formatSeconds(timeToTarget / 1000);
   };
@@ -23,6 +22,8 @@
     const timeEl = document.getElementById('timer');
     const playEl = document.getElementById('play');
     const pauseEl = document.getElementById('pause');
+
+    const incrButtons = [...document.getElementsByClassName('incr-button')];
 
     const defaultTimeDiff = 60 * 90 * 1000; // milliseconds
 
@@ -47,6 +48,19 @@
       });
       return false;
     };
+
+    incrButtons.forEach((element, index, array) => {
+      const minutes = Number(element.hash.slice(1));
+      const milliseconds = minutes * 60 * 1000;
+      element.onclick = (event) => {
+        const timeDiff = state.timeDiff + milliseconds;
+        state = updateState(state, {
+          timeDiff,
+          targetTime: new Date(now().getTime() + timeDiff),
+        });
+        timeEl.innerHTML = renderTimeEl(state);
+      };
+    });
 
     const loop = () => {
       state = updateState(state);
