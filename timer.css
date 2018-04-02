@@ -12,6 +12,7 @@ a {
   padding: 1ex;
   display: inline-block;
 }
+
 a:hover {
   color: #b8bb26;
   border: 1px solid #b8bb26;
@@ -32,7 +33,15 @@ ul.toolbar li {
   font-size: 10vw;
 }
 
-.container {
+.timer-root.near-expiration .timer-text {
+  color: #fabd2f;
+}
+
+.timer-root.expired .timer-text {
+  color: #fb4934;
+}
+
+.timer-root {
   margin: 0 auto;
   text-align: center;
 }

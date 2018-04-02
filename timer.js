@@ -14,7 +14,9 @@
 
   const timeToTarget = (state) => state.playing ? (state.targetTime - now()) : state.timeDiff;
 
-  const isExpired = (state) => timeToTarget < 0;
+  const isExpired = (state) => timeToTarget(state) < 0;
+
+  const isNearExpiration = (state) => timeToTarget(state) < 60000 && !isExpired(state);
 
   const padLeft = (a, b) => (1e15 + a + "").slice(-b)
 
@@ -65,7 +67,7 @@
     });
   };
 
-  const setup = ({ timeText, playBtn, pauseBtn, resetBtn, incrBtns }) => {
+  const setup = ({ root, timerText, playBtn, pauseBtn, resetBtn, incrBtns }) => {
 
     const defaultTimeDiff = 60 * 90 * 1000; // milliseconds
 
@@ -108,8 +110,10 @@
     });
 
     const loop = () => {
-      timeText.innerHTML = renderTimeEl(state);
-      timeText.classList.toggle('expired', isExpired(state));
+      timerText.innerHTML = renderTimeEl(state);
+      root.classList.toggle('expired', isExpired(state));
+      root.classList.toggle('near-expiration', isNearExpiration(state));
+      console.log(`Is expired: ${isExpired(state)}`);
     };
 
     loop();
@@ -117,7 +121,8 @@
   };
 
   setup({
-    timeText: document.getElementsByClassName('timer-text')[0],
+    root: document.getElementsByClassName('timer-root')[0],
+    timerText: document.getElementsByClassName('timer-text')[0],
     playBtn: document.getElementsByClassName('play-btn')[0],
     pauseBtn: document.getElementsByClassName('pause-btn')[0],
     resetBtn: document.getElementsByClassName('reset-btn')[0],
