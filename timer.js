@@ -83,18 +83,21 @@
 
     playBtn.onclick = () => {
       state = play(state);
+      loop();
       return false;
     };
 
     pauseBtn.onclick = () => {
       state = pause(state);
       timeText.innerHTML = renderTimeEl(state);
+      loop();
       return false;
     };
 
     resetBtn.onclick = () => {
       state = reset(state);
       timeText.innerHTML = renderTimeEl(state);
+      loop();
       return false;
     };
 
@@ -104,19 +107,22 @@
       element.onclick = (event) => {
         state = incrementTime(state, milliseconds);
         timeText.innerHTML = renderTimeEl(state);
+        loop();
         return false;
       };
     });
 
     const loop = () => {
+      console.log(Math.random());
+      timeText.innerHTML = renderTimeEl(state);
+      timeText.classList.toggle('expired', isExpired(state));
+
       if (state.playing) {
-        timeText.innerHTML = renderTimeEl(state);
-        timeText.classList.toggle('expired', isExpired(state));
+        setTimeout(loop, 1000);
       }
     };
 
     loop();
-    setInterval(loop, 1000);
   };
 
   setup();
