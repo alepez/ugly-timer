@@ -114,6 +114,8 @@
       root.classList.toggle('expired', isExpired(state));
       root.classList.toggle('near-expiration', isNearExpiration(state));
       console.log(`Is expired: ${isExpired(state)}`);
+      playBtn.classList.toggle('hidden', state.playing === true)
+      pauseBtn.classList.toggle('hidden', state.playing === false)
     };
 
     loop();
