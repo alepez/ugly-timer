@@ -3,6 +3,7 @@ html, body {
   background-color: #282828;
   color: #ebdbb2;
   font-size: 2vw;
+  overflow: hidden;
 }
 
 a {
@@ -23,6 +24,10 @@ ul.toolbar {
   margin: 0;
   padding: 0;
   margin-top: 1ex;
+  position: absolute;
+  bottom: 1ex;
+  right: 0;
+  width: 100%;
 }
 
 ul.toolbar li {
@@ -30,7 +35,11 @@ ul.toolbar li {
 }
 
 .timer-text {
-  font-size: 10vw;
+  font-size: 18vw;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  margin-top: -1.5ex;
 }
 
 .timer-root.near-expiration .timer-text {
@@ -44,4 +53,6 @@ ul.toolbar li {
 .timer-root {
   margin: 0 auto;
   text-align: center;
+  width: 100vw;
+  height: 100vh;
 }

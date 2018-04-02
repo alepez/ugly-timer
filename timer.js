@@ -23,14 +23,14 @@
   const now = () => new Date().getTime();
 
   const formatTime = (t) => {
-    const sign = t > 0 ? '+' : '-';
+    const sign = t > 0 ? '' : '-';
     const tt = Math.abs(t) / 1000;
     const seconds = tt % 60;
     const minutes = (((tt - seconds)) / 60) % 60;
     const hours = ((((tt - seconds)) / 60) - minutes) / 60
     const h = padLeft(hours.toFixed(0), 2);
     const m = padLeft(minutes.toFixed(0), 2);
-    const s = padLeft(seconds.toFixed(3), 6);
+    const s = padLeft(seconds.toFixed(0), 2);
     return `${sign}${h}:${m}:${s}`
   }
 
@@ -117,7 +117,7 @@
     };
 
     loop();
-    setInterval(loop, 40);
+    setInterval(loop, 100);
   };
 
   setup({
