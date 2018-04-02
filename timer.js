@@ -12,43 +12,46 @@
     return state;
   };
 
-  const timeToTarget = (state) => state.playing ? (state.targetTime - now().getTime()) : state.timeDiff;
+  const timeToTarget = (state) => state.playing ? (state.targetTime - now()) : state.timeDiff;
 
   const isExpired = (state) => timeToTarget < 0;
 
-  const pad = (a, b) => (1e15 + a + "").slice(-b)
+  const padLeft = (a, b) => (1e15 + a + "").slice(-b)
 
-  const now = () => new Date();
+  const now = () => new Date().getTime();
 
-  const formatSeconds = (sec) => {
-    const sign = sec > 0 ? '+' : '-';
-    const s = Math.abs(sec);
-    const hours = Math.floor(s / 3600);
-    const minutes = Math.floor((s - (hours * 3600)) / 60);
-    const seconds = s - hours * 3600 - minutes * 60;
-    return sign + pad(hours.toFixed(0), 2) + ":" + pad(minutes.toFixed(0), 2) + ":" + pad(seconds.toFixed(0), 2);
+  const formatTime = (t) => {
+    const sign = t > 0 ? '+' : '-';
+    const tt = Math.abs(t) / 1000;
+    const seconds = tt % 60;
+    const minutes = (((tt - seconds)) / 60) % 60;
+    const hours = ((((tt - seconds)) / 60) - minutes) / 60
+    const h = padLeft(hours.toFixed(0), 2);
+    const m = padLeft(minutes.toFixed(0), 2);
+    const s = padLeft(seconds.toFixed(3), 6);
+    return `${sign}${h}:${m}:${s}`
   }
 
   const updateState = (state, update) => save(Object.assign({}, state, update));
 
   const renderTimeEl = (state) => {
-    return formatSeconds(timeToTarget(state) / 1000);
+    return formatTime(timeToTarget(state));
   };
 
   const play = (state) => updateState(state, {
     playing: true,
-    targetTime: new Date(now().getTime() + state.timeDiff).getTime(),
+    targetTime: now() + state.timeDiff,
   });
 
-  const pause = (state) => updateState(state, {
+  const pause = (state) => !state.playing ? state : updateState(state, {
     playing: false,
-    timeDiff: state.targetTime - now().getTime(),
+    timeDiff:  state.targetTime - now(),
   });
 
-  const reset = (state) => updateState(state, {
+  const reset = (state) => state.playing ? state : updateState(state, {
     playing: false,
     timeDiff: 0,
-    targetTime: new Date(now().getTime())
+    targetTime: now()
   });
 
   const incrementTime = (state, milliseconds) => {
@@ -58,7 +61,7 @@
     return updateState(state, {
       playing,
       timeDiff,
-      targetTime: new Date(now().getTime() + timeDiff).getTime(),
+      targetTime: now() + timeDiff,
     });
   };
 
@@ -74,7 +77,7 @@
     const defaultState = {
       playing: false,
       timeDiff: defaultTimeDiff,
-      targetTime: new Date(now().getTime() + defaultTimeDiff).getTime(),
+      targetTime: now() + defaultTimeDiff,
     };
 
     const savedState = load();
@@ -89,14 +92,12 @@
 
     pauseBtn.onclick = () => {
       state = pause(state);
-      timeText.innerHTML = renderTimeEl(state);
       loop();
       return false;
     };
 
     resetBtn.onclick = () => {
       state = reset(state);
-      timeText.innerHTML = renderTimeEl(state);
       loop();
       return false;
     };
@@ -106,23 +107,18 @@
       const milliseconds = minutes * 60 * 1000;
       element.onclick = (event) => {
         state = incrementTime(state, milliseconds);
-        timeText.innerHTML = renderTimeEl(state);
         loop();
         return false;
       };
     });
 
     const loop = () => {
-      console.log(Math.random());
       timeText.innerHTML = renderTimeEl(state);
       timeText.classList.toggle('expired', isExpired(state));
-
-      if (state.playing) {
-        setTimeout(loop, 1000);
-      }
     };
 
     loop();
+    setInterval(loop, 40);
   };
 
   setup();
