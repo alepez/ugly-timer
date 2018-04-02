@@ -45,6 +45,12 @@
     timeDiff: state.targetTime - now().getTime(),
   });
 
+  const reset = (state) => updateState(state, {
+    playing: false,
+    timeDiff: 0,
+    targetTime: new Date(now().getTime())
+  });
+
   const incrementTime = (state, milliseconds) => {
     const playing = state.playing;
     state = pause(state);
@@ -57,11 +63,11 @@
   };
 
   const setup = () => {
-    const timeEl = document.getElementById('timer');
-    const playEl = document.getElementById('play');
-    const pauseEl = document.getElementById('pause');
-
-    const incrButtons = [...document.getElementsByClassName('incr-button')];
+    const timeText = document.getElementById('timer');
+    const playBtn = document.getElementById('play');
+    const pauseBtn = document.getElementById('pause');
+    const resetBtn = document.getElementById('reset');
+    const incrBtns = [...document.getElementsByClassName('incr-button')];
 
     const defaultTimeDiff = 60 * 90 * 1000; // milliseconds
 
@@ -75,29 +81,37 @@
 
     let state = Object.assign({}, defaultState, savedState);
 
-    playEl.onclick = () => {
+    playBtn.onclick = () => {
       state = play(state);
       return false;
     };
 
-    pauseEl.onclick = () => {
+    pauseBtn.onclick = () => {
       state = pause(state);
+      timeText.innerHTML = renderTimeEl(state);
       return false;
     };
 
-    incrButtons.forEach((element) => {
+    resetBtn.onclick = () => {
+      state = reset(state);
+      timeText.innerHTML = renderTimeEl(state);
+      return false;
+    };
+
+    incrBtns.forEach((element) => {
       const minutes = Number(element.hash.slice(1));
       const milliseconds = minutes * 60 * 1000;
       element.onclick = (event) => {
         state = incrementTime(state, milliseconds);
-        timeEl.innerHTML = renderTimeEl(state);
+        timeText.innerHTML = renderTimeEl(state);
+        return false;
       };
     });
 
     const loop = () => {
       if (state.playing) {
-        timeEl.innerHTML = renderTimeEl(state);
-        timeEl.classList.toggle('expired', isExpired(state));
+        timeText.innerHTML = renderTimeEl(state);
+        timeText.classList.toggle('expired', isExpired(state));
       }
     };
 
