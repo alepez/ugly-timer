@@ -1,5 +1,5 @@
 {
-  "name": "jstimer",
+  "name": "ugly-timer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,5 +8,5 @@
   },
   "keywords": [],
   "author": "Alessandro Pezzato <alessandro.pezzato@gmail.com> (http://pezzato.net)",
-  "license": "ISC"
+  "license": "LGPLv3"
 }
