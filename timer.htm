@@ -7,12 +7,14 @@
 </head>
 <body>
   <div>
-    <span id="timer"></span>
+    <span class="timer-text"></span>
   </div>
 
-  <div>
-    <a id="pause" href="#pause">Pause</a> <a id="play" href="#play">Play</a> <a id="reset" href="#play">Reset</a>
-  </div>
+  <ul>
+    <li><a class="pause-btn" href="#pause">Pause</a></li>
+    <li><a class="play-btn" href="#play">Play</a></li>
+    <li><a class="reset-btn" href="#play">Reset</a</li>
+  </ul>
 
   <ul>
     <li><a class="incr-button" href="#-60">-60</a></li>
@@ -22,6 +24,7 @@
     <li><a class="incr-button" href="#-1">-1</a></li>
     <li><a class="incr-button" href="#+1">+1</a></li>
   </ul>
+
   <script src="timer.js" charset="utf-8"></script>
   <script src="http://127.0.0.1:9001/js/socket.js" charset="utf-8"></script>
 </body>

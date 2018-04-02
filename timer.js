@@ -65,12 +65,7 @@
     });
   };
 
-  const setup = () => {
-    const timeText = document.getElementById('timer');
-    const playBtn = document.getElementById('play');
-    const pauseBtn = document.getElementById('pause');
-    const resetBtn = document.getElementById('reset');
-    const incrBtns = [...document.getElementsByClassName('incr-button')];
+  const setup = ({ timeText, playBtn, pauseBtn, resetBtn, incrBtns }) => {
 
     const defaultTimeDiff = 60 * 90 * 1000; // milliseconds
 
@@ -121,6 +116,12 @@
     setInterval(loop, 40);
   };
 
-  setup();
+  setup({
+    timeText: document.getElementsByClassName('timer-text')[0],
+    playBtn: document.getElementsByClassName('play-btn')[0],
+    pauseBtn: document.getElementsByClassName('pause-btn')[0],
+    resetBtn: document.getElementsByClassName('reset-btn')[0],
+    incrBtns: [...document.getElementsByClassName('incr-button')],
+  });
 
 }());
