@@ -24,13 +24,17 @@
 
   const formatTime = (t) => {
     const sign = t >= 0 ? '' : '-';
-    const tt = Math.abs(t) / 1000;
+    let tt = Math.abs(t);
+    const milliseconds = t % 1000;
+    tt = Math.floor(tt / 1000);
     const seconds = tt % 60;
-    const minutes = ((tt - seconds) / 60) % 60;
-    const hours = (((tt - seconds) / 60) - minutes) / 60
+    tt = ((tt - seconds) / 60);
+    const minutes = tt % 60;
+    const hours = (tt - minutes) / 60
     const h = padLeft(hours.toFixed(0), 2);
     const m = padLeft(minutes.toFixed(0), 2);
     const s = padLeft(seconds.toFixed(0), 2);
+    const ms = padLeft(milliseconds.toFixed(0), 3);
     return `${sign}${h}:${m}:${s}`
   }
 
@@ -40,7 +44,7 @@
     return formatTime(timeToTarget(state));
   };
 
-  const play = (state) => updateState(state, {
+  const play = (state) => state.playing ? state : updateState(state, {
     playing: true,
     targetTime: now() + state.timeDiff,
   });
@@ -50,7 +54,7 @@
     timeDiff:  state.targetTime - now(),
   });
 
-  const reset = (state) => state.playing ? state : updateState(state, {
+  const reset = (state) => updateState(state, {
     playing: false,
     timeDiff: 0,
     targetTime: now()
@@ -113,13 +117,12 @@
       timerText.innerHTML = renderTimeEl(state);
       root.classList.toggle('expired', isExpired(state));
       root.classList.toggle('near-expiration', isNearExpiration(state));
-      console.log(`Is expired: ${isExpired(state)}`);
       playBtn.classList.toggle('hidden', state.playing === true)
       pauseBtn.classList.toggle('hidden', state.playing === false)
     };
 
     loop();
-    setInterval(loop, 100);
+    setInterval(loop, 1000);
   };
 
   setup({

@@ -6,19 +6,6 @@ html, body {
   overflow: hidden;
 }
 
-a {
-  color: #98971a;
-  border: 1px solid #98971a;
-  text-decoration: none;
-  padding: 1ex;
-  display: inline-block;
-}
-
-a:hover {
-  color: #b8bb26;
-  border: 1px solid #b8bb26;
-}
-
 ul.toolbar {
   list-style: none;
   margin: 0;
@@ -32,6 +19,21 @@ ul.toolbar {
 
 ul.toolbar li {
   display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+ul.toolbar li a {
+  color: #98971a;
+  border: 1px solid #98971a;
+  text-decoration: none;
+  padding: 1ex;
+  display: inline-block;
+}
+
+ul.toolbar li a:hover {
+  color: #b8bb26;
+  border: 1px solid #b8bb26;
 }
 
 .timer-text {
