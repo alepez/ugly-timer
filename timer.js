@@ -117,8 +117,7 @@
       timerText.innerHTML = renderTimeEl(state);
       root.classList.toggle('expired', isExpired(state));
       root.classList.toggle('near-expiration', isNearExpiration(state));
-      playBtn.classList.toggle('hidden', state.playing === true)
-      pauseBtn.classList.toggle('hidden', state.playing === false)
+      root.classList.toggle('playing', state.playing === true);
     };
 
     loop();

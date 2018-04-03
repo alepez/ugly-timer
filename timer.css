@@ -14,7 +14,9 @@ ul.toolbar {
   position: absolute;
   bottom: 1ex;
   right: 0;
+  display: flex;
   width: 100%;
+  justify-content: center;
 }
 
 ul.toolbar li {
@@ -29,6 +31,8 @@ ul.toolbar li a {
   text-decoration: none;
   padding: 1ex;
   display: inline-block;
+  margin-left: 0.5em;
+  min-width: 1.5em;
 }
 
 ul.toolbar li a:hover {
@@ -59,6 +63,20 @@ ul.toolbar li a:hover {
   height: 100vh;
 }
 
-.hidden {
+.timer-root.playing .play-btn {
   display: none;
 }
+
+.timer-root.playing .pause-btn {
+  display: inline-block;
+}
+
+.timer-root .play-btn {
+  display: inline-block;
+}
+
+.timer-root .pause-btn {
+  display: none;
+}
+
+
