@@ -54,6 +54,8 @@
     timeDiff:  state.targetTime - now(),
   });
 
+  const showToolbar = (state) => updateState(state, { showToolbarTimer: now() + 1000 });
+
   const reset = (state) => updateState(state, {
     playing: false,
     timeDiff: 0,
@@ -79,11 +81,17 @@
       playing: false,
       timeDiff: defaultTimeDiff,
       targetTime: now() + defaultTimeDiff,
+      showToolbarTimer: 0,
     };
 
     const savedState = load();
 
     let state = Object.assign({}, defaultState, savedState);
+
+    root.onmousemove = () => {
+      state = showToolbar(state);
+      loop();
+    };
 
     playBtn.onclick = () => {
       state = play(state);
@@ -118,6 +126,7 @@
       root.classList.toggle('expired', isExpired(state));
       root.classList.toggle('near-expiration', isNearExpiration(state));
       root.classList.toggle('playing', state.playing === true);
+      root.classList.toggle('toolbar-visible', state.showToolbarTimer > now());
     };
 
     loop();
