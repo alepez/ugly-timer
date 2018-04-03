@@ -18,6 +18,7 @@ ul.toolbar {
   margin-top: 1ex;
   justify-content: center;
   opacity: 0;
+  transition: opacity 1s;
 }
 
 .timer-root.toolbar-visible ul.toolbar {
@@ -38,6 +39,7 @@ ul.toolbar li a {
   display: inline-block;
   margin-left: 0.5em;
   min-width: 1.5em;
+  transition: border 250ms ease-out;
 }
 
 ul.toolbar li a:hover {
